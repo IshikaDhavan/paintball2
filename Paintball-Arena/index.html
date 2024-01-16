@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <title>PaintBall Arena in Virtual Reality</title>
+    <script src="https://aframe.io/releases/1.0.4/aframe.min.js"></script>
+  <script
+    src="https://cdn.jsdelivr.net/gh/n5ro/aframe-physics-system@v4.0.1/dist/aframe-physics-system.min.js"></script>
+  <script src="https://unpkg.com/aframe-environment-component@1.1.0/dist/aframe-environment-component.min.js"></script>
+  <script src="https://recast-api.donmccurdy.com/aframe-inspector-plugin-recast.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+    <!--LocalFiles-->
+    <script src="./shoot.js"></script>
+    <script src="./playerMovement.js"></script>
+    </head>
+    <body>
+
+        <a-scene id="scene" inspector-plugin-recast>
+
+            <!--Assets-->
+            <a-asset>
+                <a-assets-item id="shooter" src="./models/shooter/gun.gltf"></a-assets-item>
+                <audio id="splash" src="./sounds/splash.mp3"></audio>
+                <audio id="footSteps" src="./sounds/footStep.mp3"></audio>
+                <a-asset-item id="collider" src="./models/navmesh.gltf"></a-asset-item>
+            </a-asset>
+
+            <!--Environment-->
+            <a-entity environment="preset: default; skyType: gradient; lighting: point; skyColor: blue;"></a-entity>
+
+            <!--Sounds-->
+            <a-entity id="sound1" 
+            sound="src: #splash; poolSize: 2; autoplay: false; volume: 1; loop: false"></a-entity>
+            <a-entity id="sound2" 
+            sound="src: #footSteps; poolSize: 2; autoplay: false; volume: 4; loop: false"></a-entity>
+
+            <!--Light-->
+            <a-entity light="type: ambient; color: white; intensity:0.5"></a-entity>   
+            <a-entity light="type: directional; color: #EEE; intensity: 1" position="-1 1 0"></a-entity>
+
+            <!--Camera and Cursor-->
+            <a-entity id="camera-rig" movement-controls="speed: 0.2; constrainToNavMesh: true" position="0 0 5">
+                <a-entity id="camera" camera position="0 1.6 0"
+                look-controls="pointerLockEnabled: false">
+                <a-entity
+                id="weapon"
+                gltf-model="#shooter"
+                position="0 -4.3 3"
+                rotation="0 180 0"
+                scale="0.35 1 1"
+                player-movement
+                ></a-entity>
+
+                <a-cursor></a-cursor>
+                </a-entity>
+            </a-entity>
+  
+
+           <!--Paint-->
+           <a-entity shoot></a-entity>
+
+            <!-- Navigation Mesh -->
+            <a-entity id="navigation-mesh" position="0 -1 0" gltf-model="#collider" visible="false" nav-mesh>
+            </a-entity>
+
+            <!--Ground-->
+           <a-plane
+           id="ground"
+           position="0 1 0"
+           repeat="5 5"
+           rotation="-90 0 0"
+           height="200"
+           width="200"
+           color="#000"
+           static-body
+           visible="true"></a-plane>
+           
+           <!--Arena walls-->
+           <a-box id="right"
+           repeat="10 1 1" position="20 5 -15" rotation="0 -90 0" height="10" width="100" depth="1" static-body visible="true" 
+           color="#ADD8E6"></a-box>
+
+           <a-box id="left"
+           repeat="10 1 1" position="-20 5 -15" rotation="0 90 0" height="10" width="100" depth="1" static-body visible="true"
+           color="#ADD8E6"></a-box>
+
+           <a-box id="back"
+           repeat="10 1 1" position="0 5 -35" rotation="0 0 0" height="10" width="100" depth="1" static-body visible="true"
+           color="#ADD8E6"></a-box>
+
+           <a-box id="front"
+           repeat="10 1 1" position="0 5 10" rotation="0 0 0" height="10" width="100" depth="1" static-body visible="true"
+           color="#ADD8E6"></a-box>
+
+           <!--wALLS-->
+           <a-plane
+           id="wall1"
+           position="8 1 -20"
+           width="25"
+           height="2.5"
+           rotation="0 45 0"
+           color="#9b5a6d" static-body></a-plane>
+
+           <a-plane
+           id="wall2"
+           position="15 1 -10"
+           width="5"
+           height="2.5"
+           rotation="0 0 0"
+           color="#6b7e49" static-body></a-plane>
+
+           <a-plane
+           id="wall3"
+           position="-8 1 -10"
+           width="5"
+           height="2.5"
+           rotation="0 0 0"
+           color="#aa8f39" static-body></a-plane>
+
+           <a-plane
+           id="wall4"
+           position="-15 1 -10"
+           width="5"
+           height="2.5"
+           rotation="0 0 0"
+           color="#4c7b7d" static-body></a-plane>
+
+           <a-plane
+           id="wall5"
+           position="5 1 -10"
+           width="12"
+           height="2.5"
+           rotation="0 0 0"
+           color="#8a5a52" static-body></a-plane>
+
+           <a-plane
+           id="wall6"
+           position="-5 1 -25"
+           width="25"
+           height="2.5"
+           rotation="0 -40 0"
+           color="#7d6e91" static-body></a-plane>
+
+           <a-plane
+           id="wall7"
+           position="-15 1 -20"
+           width="20"
+           height="2.5"
+           rotation="0 -40 0"
+           color="#44576c" static-body></a-plane>
+
+           <a-plane
+           id="wall8"
+           position="1 1 -24"
+           width="25"
+           height="2.5"
+           rotation="0 45 0"
+           color="#ab5a31" static-body></a-plane>
+
+           <a-plane
+           id="wall9"
+           position="12 1 -20"
+           width="17"
+           height="2.5"
+           rotation="0 -40 0"
+           color="#a28736" static-body></a-plane>
+
+           <a-plane
+           id="wall10"
+           position="-10 1 -30"
+           width="15"
+           height="2.5"
+           rotation="0 45 0"
+           color="#644c66"  static-body></a-plane>
+
+           <a-plane
+           id="wall11"
+           position="-18 1 -17"
+           width="5"
+           height="2.5"
+           rotation="0 90 0"
+           color="#644c66" static-body></a-plane>
+
+           <a-plane
+           id="wall12"
+           position="-18 1 -30"
+           width="5"
+           height="2.5"
+           rotation="0 0 0"
+           color="#6b574b" static-body></a-plane>
+
+           <a-box id="wall14" color="#18cd58" width="5" height="10" depth="0.1" position="1 1 -31" rotation="-50 -90 0" static-body></a-box>
+
+           <a-box id="wall15" color="#18cd58" width="20" height="0.1" depth="5" position="15 4 -31" rotation="0 0 0" static-body></a-box>
+           
+           <a-box id="wall16" color="#18cd58" width="5" height="10" depth="0.1" position="18 1 -25" rotation="-50 0 0" static-body ></a-box>
+
+        </a-scene>
+    </body>
+</html>
